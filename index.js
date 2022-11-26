@@ -25,6 +25,10 @@ async function run() {
 
     const usersCollection = client.db('mobilePlanet').collection('users');
 
+    const productsCollection = client.db('mobilePlanet').collection('products');
+
+    const ordersCollection = client.db('mobilePlanet').collection('orders');
+
     app.get('/mobileCategory', async (req, res) => {
       const query = {};
       const result = await mobileCategoryCollection.find(query).toArray();
@@ -42,6 +46,20 @@ async function run() {
       const users = req.body;
       console.log(users);
       const result = await usersCollection.insertOne(users);
+      res.send(result);
+    });
+
+    app.get('/products/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { category_id: id };
+      const result = await productsCollection.find(query).toArray();
+      res.send(result);
+    });
+
+    app.post('/orders', async (req, res) => {
+      const users = req.body;
+      console.log(users);
+      const result = await ordersCollection.insertOne(users);
       res.send(result);
     });
 
