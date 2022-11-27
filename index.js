@@ -49,10 +49,19 @@ async function run() {
       res.send(result);
     });
 
+
     app.get('/products/:id', async (req, res) => {
       const id = req.params.id;
       const query = { category_id: id };
       const result = await productsCollection.find(query).toArray();
+      res.send(result);
+    });
+
+    app.get('/orders', async (req, res) => {
+      const email = req.query.email;
+      console.log(email);
+      const query = { email: email };
+      const result = await ordersCollection.find(query).toArray();
       res.send(result);
     });
 
