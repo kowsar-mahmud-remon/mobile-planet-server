@@ -43,12 +43,20 @@ async function run() {
     //   res.send(result);
     // });
 
-    // app.get('/users', async (req, res) => {
+    // app.get('/userss', async (req, res) => {
     //   const email = req.query.email;
     //   const query = { email: email };
     //   const result = await usersCollection.findOne(query);
     //   res.send(result);
     // });
+
+    // admin
+    app.get('/users/admin/:email', async (req, res) => {
+      const email = req.params.email;
+      const query = { email };
+      const user = await usersCollection.findOne(query);
+      res.send({ isAdmin: user?.category === 'Admin' });
+    });
 
     app.get('/users', async (req, res) => {
       const category = req.query.category;
@@ -66,10 +74,8 @@ async function run() {
 
     app.delete('/users/:id', async (req, res) => {
       const id = req.params.id;
-      console.log('iddd', id);
       const query = { _id: ObjectId(id) };
       const result = await usersCollection.deleteOne(query);
-      console.log(result);
       res.send(result);
     });
 
