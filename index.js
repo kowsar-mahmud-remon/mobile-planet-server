@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config();
 // const jwt = require('jsonwebtoken');
 // const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
@@ -61,6 +61,15 @@ async function run() {
     app.post('/users', async (req, res) => {
       const users = req.body;
       const result = await usersCollection.insertOne(users);
+      res.send(result);
+    });
+
+    app.delete('/users/:id', async (req, res) => {
+      const id = req.params.id;
+      console.log('iddd', id);
+      const query = { _id: ObjectId(id) };
+      const result = await usersCollection.deleteOne(query);
+      console.log(result);
       res.send(result);
     });
 
